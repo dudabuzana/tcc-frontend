@@ -15,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { DeleteButton } from '../../componentes/button/delete';
 import { TurmaProps, AlunosTurmaProps } from "../../types/turma";
 import { api } from "../../services/api";
 
@@ -59,7 +60,7 @@ function Row(props: { row: ReturnType<typeof createData>, alunos: AlunosTurmaPro
                     <EditIcon />
                 </Button>
                 <Button>
-                    <DeleteIcon />
+                  <DeleteButton handleDelete={() => {}} id={''} title={'Turma'}/>
                 </Button>
             </div>
         </TableCell>

@@ -10,6 +10,9 @@ import { CadastrarAluno } from "./pages/aluno/cadastrar";
 import { ListarDisciplina } from "./pages/disciplina/listar";
 import { CadastrarDisciplina } from "./pages/disciplina/cadastrar";
 import { ListarTurma } from "./pages/turma/listar";
+import { ListarFormulario } from "./pages/formulario/listar";
+import { ViewFormulario } from "./pages/formulario/view";
+import { CadastrarFormulario } from "./pages/formulario/cadastrar";
 
 export default function AppRoutes() {
   const token = localStorage.getItem('token');
@@ -31,6 +34,10 @@ export default function AppRoutes() {
               <Route path="/disciplina/list" element={<ListarDisciplina/>} />
               <Route path="/disciplina/cadastrar" element={<CadastrarDisciplina/>} />
               <Route path="/turma/list" element={<ListarTurma/>} />
+              <Route path="/formulario/list" element={<ListarFormulario/>} />
+              <Route path="/formulario/:id" element={<ViewFormulario/>} />
+              <Route path="/formulario/cadastrar" element={<CadastrarFormulario/>} />
+              <Route path="/formulario/alterar/:id" element={<CadastrarFormulario/>} />
             </Routes>
           </main>
         </div>

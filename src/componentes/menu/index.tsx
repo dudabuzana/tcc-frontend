@@ -49,7 +49,7 @@ export function MenuHeader() {
                 {(nivel === 'instituicao') && <Button variant="text" sx={{ my: 1, mx: 1.5 }} href="/aluno/list">Alunos</Button>}
                 <Button variant="text" sx={{ my: 1, mx: 1.5 }} href="/disciplina/list">Disciplinas</Button>
                 <Button variant="text" sx={{ my: 1, mx: 1.5 }} href="/turma/list">Turmas</Button>
-                <Button variant="text" sx={{ my: 1, mx: 1.5 }}>Formulários</Button>
+                <Button variant="text" sx={{ my: 1, mx: 1.5 }} href="/formulario/list">Formulários</Button>
             </nav>
             <div>
                 <Button

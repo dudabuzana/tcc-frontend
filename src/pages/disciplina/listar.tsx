@@ -14,12 +14,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import styles from "../../styles/styles.module.scss";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { MenuHeader } from '../../componentes/menu';
-import { DisciplinaProps } from "../../types/disciplina"
+import { DisciplinaProps } from "../../types/disciplina";
+import { DeleteButton } from '../../componentes/button/delete';
 import { api } from "../../services/api";
 
 export function ListarDisciplina() {
@@ -156,9 +156,7 @@ export function ListarDisciplina() {
                                             <Button href="/login" sx={{ mb: 0 }} >
                                                 <EditIcon />
                                             </Button>
-                                            <Button onClick={async() => handleDelete(disciplina.id)} sx={{ mb: 0 }} >
-                                                <DeleteIcon />
-                                            </Button>
+                                            <DeleteButton handleDelete={handleDelete} id={disciplina.id} title={'Disciplina'}/>
                                         </div>)
                                     }
                                 </TableCell>

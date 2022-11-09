@@ -14,10 +14,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import styles from "../../styles/styles.module.scss";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { DeleteButton } from '../../componentes/button/delete';
 import { MenuHeader } from '../../componentes/menu';
 import { PessoaProps } from "../../types/pessoa"
 import { api } from "../../services/api";
@@ -161,9 +161,7 @@ export function ListarAluno() {
                                             <Button href={`alterar/${aluno.cpfCnpj}`} sx={{ mb: 0 }} >
                                                 <EditIcon />
                                             </Button>
-                                            <Button onClick={async() => handleDelete(aluno.cpfCnpj)} sx={{ mb: 0 }} >
-                                                <DeleteIcon />
-                                            </Button>
+                                            <DeleteButton handleDelete={handleDelete} id={aluno.cpfCnpj} title={'Aluno'}/>
                                         </div>)
                                     }
                                 </TableCell>

@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Person from '@mui/icons-material/Person';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
@@ -13,17 +12,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import styles from "../../styles/styles.module.scss";
+import ViewListIcon from '@mui/icons-material/ViewList';
 import EditIcon from '@mui/icons-material/Edit';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { MenuHeader } from '../../componentes/menu';
-import { PessoaProps } from "../../types/pessoa";
 import { DeleteButton } from '../../componentes/button/delete';
+import { SendButton } from '../../componentes/button/send';
+import { FormularioProps } from "../../types/formulario"
 import { api } from "../../services/api";
 
-export function ListarProfessor() {
-    const [professores, setProfessores] = React.useState<PessoaProps[]>([]);
+export function ListarFormulario() {
+    const [formularios, setFormularios] = React.useState<FormularioProps[]>([]);
     const [message, setMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const [openSucess, setOpenSucess] = React.useState(false);
@@ -31,21 +32,22 @@ export function ListarProfessor() {
     const vertical = 'bottom';
     const horizontal = 'right';
 
-    const fetchProfessores = async () => {
-        const response = await api.get<PessoaProps[]>(`professor`);
+    const fetchFormularios = async () => {
+        const url = localStorage.getItem('nivel') === 'instituicao' ? "formulario" : `professor/${localStorage.getItem('cpfCnpj')}/formulario`;
+        const response = await api.get<FormularioProps[]>(url);
         if (response.status === 200) {
-            setProfessores(response.data)
+            setFormularios(response.data)
         }     
     };
 
     React.useEffect(() => {
-        if (professores.length === 0) {
-            fetchProfessores();
+        if (formularios.length === 0) {
+            fetchFormularios();
         }
     });
 
     interface Column {
-        id: 'cpfCnpj' | 'nome' | 'matricula' | 'actions';
+        id: 'curso' | 'disciplina' | 'semestre' | 'data' | 'status' | 'actions';
         label: string;
         minWidth?: number;
         align: 'right' | 'left';
@@ -53,36 +55,65 @@ export function ListarProfessor() {
     }
 
     const columns: readonly Column[] = [
-        { id: 'cpfCnpj', label: 'CPF', minWidth: 150, align: 'left' },
-        { id: 'nome', label: 'Nome', minWidth: 300, align: 'left' },
-        { id: 'matricula', label: 'Matrícula', minWidth: 100, align: 'left' },
+        { id: 'curso', label: 'Curso', minWidth: 180, align: 'left' },
+        { id: 'disciplina', label: 'Disciplina', minWidth: 200, align: 'left' },
+        { id: 'semestre', label: 'Semestre', minWidth: 100, align: 'left' },
+        { id: 'data', label: 'Data', minWidth: 120, align: 'left' },
+        { id: 'status', label: 'Status', minWidth: 100, align: 'left' },
         { id: 'actions', label: '', minWidth: 10, align: 'right' },
     ];
 
     interface Data {
-        cpfCnpj: string;
-        nome: string;
-        matricula: string;
+        curso: string;
+        disciplina: string;
+        semestre: string;
+        data: string;
+        status: string;
         actions: string;
     }
       
     function createData(
-        cpfCnpj: string,
-        nome: string,
-        matricula: string,
+        curso: string,
+        disciplina: string,
+        semestre: string,
+        data: string,
+        status: string
       ): Data {
-        return { cpfCnpj, nome, matricula, actions: "" };
+        return { curso, disciplina, semestre, data, status, actions: "" };
     }
 
-    const handleDelete = async (cpfCnpj: string) => {
+    const handleDelete = async (id: string) => {
         try {
-            const response = await api.delete(`professor/${cpfCnpj}`);
+            const response = await api.delete(`formulario/${id}`);
             if (response.status === 200) {
-                setMessage("Exclusão de Professor realizada com sucesso!")
+                setMessage("Exclusão de Formulário realizada com sucesso!")
                 setOpenSucess(true);
                 setTimeout(
                     () => {
-                        fetchProfessores();
+                        fetchFormularios();
+                    },
+                    3000,
+                );
+            }
+        } catch (error: any) {
+            setMessage(error.response.data.error)
+            handleClick()
+        }
+    };
+
+    const handleUpdate = async (formulario: FormularioProps) => {
+        try {
+            const response = await api.put(`formulario/${formulario.id}`, {
+                id: formulario.id,
+                idTurma: formulario.Turma.id,
+                status: 'enviado'
+            });
+            if (response.status === 200) {
+                setMessage("Envio do Formulário realizada com sucesso!")
+                setOpenSucess(true);
+                setTimeout(
+                    () => {
+                        fetchFormularios();
                     },
                     3000,
                 );
@@ -117,7 +148,7 @@ export function ListarProfessor() {
         }
         setOpenSucess(false);
     };
-      
+
     return (
         <React.Fragment>
         <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
@@ -126,10 +157,10 @@ export function ListarProfessor() {
         <div className={styles.container} >
             <Paper sx={{ width: '100%' }} elevation={0}>
                 <Typography component="h1" variant="h4" sx={{ mt: 4, mb: 4 }}>
-                    <Person /> Gerenciamento de Professores
+                    <ViewListIcon /> Gerenciamento de Formulários
                 </Typography>
                 <hr/>
-                <Button href="/professor/cadastrar" variant="contained" sx={{ float: 'right' }} >
+                <Button href="/formulario/cadastrar" variant="contained" sx={{ float: 'right' }} >
                     Cadastrar
                 </Button>
             <TableContainer sx={{ mt: 2 }}>
@@ -148,20 +179,30 @@ export function ListarProfessor() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {professores.map((professor) => {
-                        const row = createData(professor.cpfCnpj, professor.pessoa.nome, professor.pessoa.matricula);
+                    {formularios.map((formulario) => {
+                        const row = createData(
+                            formulario.Turma.Disciplina.curso, 
+                            formulario.Turma.Disciplina.nome, 
+                            String(formulario.Turma.semestre).substring(4) + "/" + String(formulario.Turma.semestre).substring(0,4), 
+                            formulario.dataCriacao.substring(8, 10) + "/" + formulario.dataCriacao.substring(5, 7) + "/" + formulario.dataCriacao.substring(0, 4), 
+                            formulario.status === 'criado' ? 'Criado' : 'Enviado'
+                        );
                         return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.cpfCnpj}>
+                        <TableRow hover role="checkbox" tabIndex={-1} key={formulario.id}>
                             {columns.map((column) => {
                             const value = row[column.id];
                             return (
                                 <TableCell key={column.id} align={column.align}>
                                     {column.id !== 'actions' ? value : 
                                         (<div>
-                                            <Button href="/login" sx={{ mb: 0 }} >
+                                            <Button href={`/formulario/${formulario.id}`} sx={{ mb: 0 }} >
+                                                <ViewListIcon />
+                                            </Button>
+                                            <Button href={`alterar/${formulario.id}`} sx={{ mb: 0 }} disabled={formulario.status === 'enviado'} >
                                                 <EditIcon />
                                             </Button>
-                                            <DeleteButton handleDelete={handleDelete} id={professor.cpfCnpj} title={'Professsor'}/>
+                                            <SendButton handleSend={handleUpdate} formulario={formulario}/>
+                                            <DeleteButton handleDelete={handleDelete} id={formulario.id} title={'Formulário'}/>
                                         </div>)
                                     }
                                 </TableCell>

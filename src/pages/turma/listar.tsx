@@ -12,7 +12,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { TurmaAlunosTable } from "./row";
 import { MenuHeader } from '../../componentes/menu';
-import { TurmaProps } from "../../types/turma"
+import { TurmaProps } from "../../types/turma";
 import { api } from "../../services/api";
 
 export function ListarTurma() {
