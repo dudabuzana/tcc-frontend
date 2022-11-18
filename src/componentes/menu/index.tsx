@@ -40,7 +40,7 @@ export function MenuHeader() {
         sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
       >
           <Toolbar sx={{ flexWrap: 'wrap' }}>
-            <Button href="#" variant="text" sx={{ my: 1, mx: 1.5, ml: 10 }}>
+            <Button href="/home" variant="text" sx={{ my: 1, mx: 1.5, ml: 10 }}>
               <img src={Magnolia} width="50px" />
             </Button>
             <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }} /> {/*Deixar espaçamento*/}

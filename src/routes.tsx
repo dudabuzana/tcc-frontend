@@ -13,6 +13,7 @@ import { ListarTurma } from "./pages/turma/listar";
 import { ListarFormulario } from "./pages/formulario/listar";
 import { ViewFormulario } from "./pages/formulario/view";
 import { CadastrarFormulario } from "./pages/formulario/cadastrar";
+import { CadastrarAlerta } from "./pages/alerta/cadastrar";
 
 export default function AppRoutes() {
   const token = localStorage.getItem('token');
@@ -38,6 +39,7 @@ export default function AppRoutes() {
               <Route path="/formulario/:id" element={<ViewFormulario/>} />
               <Route path="/formulario/cadastrar" element={<CadastrarFormulario/>} />
               <Route path="/formulario/alterar/:id" element={<CadastrarFormulario/>} />
+              <Route path="/alerta/cadastrar" element={<CadastrarAlerta/>} />
             </Routes>
           </main>
         </div>

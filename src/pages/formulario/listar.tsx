@@ -163,6 +163,9 @@ export function ListarFormulario() {
                 <Button href="/formulario/cadastrar" variant="contained" sx={{ float: 'right' }} >
                     Cadastrar
                 </Button>
+                <Button href="/alerta/cadastrar" variant="contained" sx={{ float: 'right', marginRight: 1 }} >
+                    Configurar Alertas
+                </Button>
             <TableContainer sx={{ mt: 2 }}>
                 <Table stickyHeader aria-label="sticky table" >
                 <TableHead>
